@@ -261,9 +261,6 @@ def get_car_details_from_vin(vin):
         # Handle the case when the request was not successful
         return CarDetails(make="", model="", year=0)
 
-import requests
-from pydantic import BaseModel, Field
-
 class AppointmentDetails(BaseModel):
     time: str
     availability: str
@@ -273,7 +270,7 @@ class AppointmentInput(BaseModel):
     company_id: int = Field(..., description="company ID")
     location_id: int = Field(..., description="location of dealership")
         
-@tool(args_schema=AppointmentInput)
+@tool
 def get_appointment_details(requested_appointment_date: str, company_id: int, location_id: int) -> dict:
 # def get_appointment_details(requested_appointment_date: str):
     """Fetch appointment details for the given date."""
@@ -321,7 +318,7 @@ class CustomerDataStore(BaseModel):
     summary:str=Field(..., description="one line about summary of appointment,")
     description:str=Field(..., description="one line about description about visit,")
 # Uncomment if you want to use the decorator
-@tool(args_schema=CustomerDataStore)
+@tool
 def store_appointment_data(name: str,phone: str,email: str ,make: str,model: str,year:int,
                            company_id:int,location_id:int,start_date:str,appointment_timezone:str,
                            intent:str,summary:str,description:str) -> dict:
