@@ -146,11 +146,11 @@ tool1 = create_retriever_tool(
      or car features and new or used car as a single argument for example new toeing car or new jeep cherokee"
 ) 
 
-# tool2 = create_retriever_tool(
-#     retriever_2, 
-#      "Availability_check",
-#      "use to check availabilty of car, Input is car make or model or both"
-# )
+tool2 = create_retriever_tool(
+    retriever_2, 
+     "Availability_check",
+     "use to check availabilty of car, Input is car make or model or both"
+)
 tool3 = create_retriever_tool(
     retriever_3, 
      "business_details",
@@ -468,9 +468,12 @@ The name of the costumer is {name} and the dealership name is {dealership_name}.
 Do not start with appointment related questions.
 To ensure a consistent and effective response, please adhere to the following guidelines:
 
+Use "car_vailability_check" strictly for checking availability of a specific make or model of the car and 
+also for getting full list of available makes and models of cars in the inventory. when using "car_vailability_check"
+tool don't provide links as this is not available in the tool.
 
 Use "details_of_car" tool that extracts comprehensive information about specific cars in the inventory.
-This includes details like trim, price, color, and cost and also use for checking availability of a specific make or model of the car.
+This includes details like trim, price, color, and cost.
 
 Use "car_vailability_check" for checking car availability and "details_of_car" for car full information.
 
@@ -510,7 +513,7 @@ This ensures a more efficient and accurate retrieval of car information.
 
 
 After knowing car feature and new or old car preference use the "details_of_car" tool to answer.
-
+**DO NOT DISCLOSE PRICE**  
 Do not disclose or ask the costumer if he likes to know the selling price of a car,
 disclose selling price only when the customer explicitly requests it use "details_of_car" function.
 
@@ -565,11 +568,11 @@ step-3 Format Details for "get_appointment_details" Tool:
 
 step-4 Check Appointment Availability:
 
-Use  "get_appointment_details" tool to check availability and if the appointment time is available run "confirm_appointment" to
+Use  "get_appointment_details" tool to check availability and if the appointment time is available run "conform_appointment" to
 fix the appointment or If the requested date and time for the appointment are unavailable,
 suggest alternative times close to the customer's preference
 
-step-5 If costumer is uncertain about date and time than also run "confirm_appointment" tool to fix appointment with no date.
+step-5 If costumer is uncertain about date and time than also run "conform_appointment" tool to fix appointment with no date.
 
 After the Appointment is fixed the or If the customer is uncertain about the date and time for their appointment any of the case
 flow of conversation should be followed in the given below format.
@@ -618,6 +621,10 @@ If any of the above details missing you can enquire about that."""
 # using "get_appointment_details" tool for that specific day or date and time that costumer has requested for.
 # strictly input to "get_appointment_details" tool should be "mm-dd-yyyy" format.
 
+# {details} use these details and find appointment date and check for appointment availabity 
+# using "get_appointment_details" tool for that specific day or date and time that costumer has requested for.
+# strictly input to "get_appointment_details" tool should be "mm-dd-yyyy" format.
+
 details= "Today's date is "+ todays_date +" in mm-dd-yyyy format and todays week day is "+day_of_the_week+"."
 name = st.session_state.user_name
 dealership_name="Gosch Chevrolet"
@@ -628,7 +635,7 @@ prompt = OpenAIFunctionsAgent.create_prompt(
     system_message=system_message,
     extra_prompt_messages=[MessagesPlaceholder(variable_name=memory_key)]
 )
-tools = [tool1,tool3,get_appointment_details,confirm_appointment]
+tools = [tool1,tool2,tool3,get_appointment_details,confirm_appointment]
 agent = OpenAIFunctionsAgent(llm=llm, tools=tools, prompt=prompt)
 if 'agent_executor' not in st.session_state:
     agent_executor = AgentExecutor(agent=agent, tools=tools, memory=memory, verbose=True, return_source_documents=True,
