@@ -545,7 +545,7 @@ If any of the above details missing you can enquire about that."""
 
 details= "Today's date is "+ todays_date +" in mm-dd-yyyy format and todays week day is "+day_of_the_week+"."
 name = st.session_state.user_name
-dealership_name="Gosch Auto Group"
+dealership_name="Gosch Chevrolet"
 input_template = template.format(details=details,name=name,dealership_name=dealership_name)
 system_message = SystemMessage(content=input_template)
 
