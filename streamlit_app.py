@@ -142,15 +142,15 @@ retriever_2 = vectordb_2.as_retriever(search_type="similarity", search_kwargs={"
 tool1 = create_retriever_tool(
     retriever_1, 
      "details_of_car",
-     "use to get car full details and more information. Input to this should be the car's model\
+     "use to check availabilty of car and  to get car full details. Input to this should be the car's model\
      or car features and new or used car as a single argument for example new toeing car or new jeep cherokee"
 ) 
 
-tool2 = create_retriever_tool(
-    retriever_2, 
-     "Availability_check",
-     "use to check availabilty of car, Input is car make or model or both"
-)
+# tool2 = create_retriever_tool(
+#     retriever_2, 
+#      "Availability_check",
+#      "use to check availabilty of car, Input is car make or model or both"
+# )
 tool3 = create_retriever_tool(
     retriever_3, 
      "business_details",
@@ -468,12 +468,9 @@ The name of the costumer is {name} and the dealership name is {dealership_name}.
 Do not start with appointment related questions.
 To ensure a consistent and effective response, please adhere to the following guidelines:
 
-Use "car_vailability_check" strictly for checking availability of a specific make or model of the car and 
-also for getting full list of available makes and models of cars in the inventory. when using "car_vailability_check"
-tool don't provide links as this is not available in the tool.
 
 Use "details_of_car" tool that extracts comprehensive information about specific cars in the inventory.
-This includes details like trim, price, color, and cost.
+This includes details like trim, price, color, and cost and also use for checking availability of a specific make or model of the car.
 
 Use "car_vailability_check" for checking car availability and "details_of_car" for car full information.
 
