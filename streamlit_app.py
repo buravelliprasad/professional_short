@@ -369,6 +369,83 @@ import requests
 from pydantic import BaseModel, Field
 from typing import Dict, Any
 
+class appointment_link(BaseModel):
+    appointment_url: str
+#     link:str
+class CustomerDataStore(BaseModel):
+    name: str = Field(..., description="name of the customer")
+    phone: str = Field(..., description="phone number of the customer")
+    email: str = Field(..., description="email of the customer")
+    make: str = Field(..., description="make or makes of the car")
+    model: str = Field(..., description="a single car or a multiple models of the car with comma separated")
+    year:int=Field(..., description="year of the vehicle")
+    company_id:int=Field(..., description="id of the company")
+    location_id:int=Field(..., description="location id of the company")
+    start_date:str=Field(..., description="is not available")
+    appointment_timezone:str=Field(..., description="time zone")
+    intent:str=Field(..., description="costumer intent")
+    summary:str=Field(..., description="one line about summary of appointment,")
+    description:str=Field(..., description="one line about description about visit,")
+
+@tool(args_schema=CustomerDataStore)
+def create_appointment_link(name: str,phone: str,email: str ,make: str,model: str,year:int,
+                           company_id:int,location_id:int,start_date:str,appointment_timezone:str,
+                           intent:str,summary:str,description:str) -> dict:
+
+
+
+    """To create appointment"""
+#     print(data)
+    
+    # Your API endpoint for storing appointment data
+#     api_url = "https://889d-2402-a00-172-22e6-71e5-ba36-c2e7-3c81.ngrok-free.app/test/appointment/create"
+    api_url="https://495c-2402-a00-172-22e6-5ea8-c44e-fd0e-e8ed.ngrok-free.app/test/appointment/create"
+
+    data_dict = {
+    "company_id": company_id,
+    "location_id": location_id,
+    "lead": {
+        "name": name,
+        "phone": phone,
+        "email": email
+    },
+    "vehicle": {
+        "year": year,
+        "make": make,
+        "model": model,
+        "intent": intent
+    },
+    "appointment": {
+        "start_date": start_date,
+        "description": description,
+        "summary":summary,
+        "appointment_timezone": appointment_timezone
+    }
+}
+
+    # Make the request
+    response = requests.post(api_url, json=data_dict)
+    print(response.status_code)
+    print("___json___")
+    print(response.json)
+    print("___text___")
+    print(response.text)
+#      response = requests.patch(api_url, json=data_dict)
+   
+    # Check the response status code
+    if response.status_code == 200:
+        print("Data stored successfully!")
+        appointment_url = response
+        return appointment_url
+        
+    else:
+        print(f"Failed to store data. Status code: {response.status_code}")
+        print(response.text)  # Print the response content for debugging
+
+import requests
+from pydantic import BaseModel, Field
+from typing import Dict, Any
+
 class CustomerDataStore(BaseModel):
     name: str = Field(..., description="name of the customer")
     phone: str = Field(..., description="phone number of the customer")
@@ -623,7 +700,7 @@ prompt = OpenAIFunctionsAgent.create_prompt(
     system_message=system_message,
     extra_prompt_messages=[MessagesPlaceholder(variable_name=memory_key)]
 )
-tools = [tool1,tool2,tool3,get_appointment_details,confirm_appointment]
+tools = [tool1,tool2,tool3,get_appointment_details,confirm_appointment,create_appointment_link]
 agent = OpenAIFunctionsAgent(llm=llm, tools=tools, prompt=prompt)
 if 'agent_executor' not in st.session_state:
     agent_executor = AgentExecutor(agent=agent, tools=tools, memory=memory, verbose=True, return_source_documents=True,
