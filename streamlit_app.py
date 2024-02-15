@@ -387,7 +387,7 @@ class CustomerDataStore(BaseModel):
     summary:str=Field(..., description="one line about summary of appointment,")
     description:str=Field(..., description="one line about description about visit,")
 
-@tool(args_schema=CustomerDataStore)
+@tool
 def create_appointment_link(name: str,phone: str,email: str ,make: str,model: str,year:int,
                            company_id:int,location_id:int,start_date:str,appointment_timezone:str,
                            intent:str,summary:str,description:str) -> dict:
