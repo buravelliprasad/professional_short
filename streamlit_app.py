@@ -159,7 +159,7 @@ tool3 = create_retriever_tool(
 
 
 
-
+########VIN_FUNCTION########
 class CarDetails(BaseModel):
     make: str
     model: str
@@ -209,6 +209,9 @@ def get_car_details_from_vin(vin):
         # Handle the case when the request was not successful
         return CarDetails(make="", model="", year=0)
 
+
+#######APPOINTMENT DATE TO CHECK AVAILABILITY##############
+
 class AppointmentDetails(BaseModel):
     time: str
     availability: str
@@ -251,75 +254,16 @@ def get_appointment_details(requested_appointment_date: str, company_id: int, lo
         # Handle the case when the request was not successful
         return {"error": "Failed to retrieve appointment details"}
 
-# class CustomerDataStore(BaseModel):
-#     name: str = Field(..., description="name of the customer")
-#     phone: str = Field(..., description="phone number of the customer")
-#     email: str = Field(..., description="email of the customer")
-#     make: str = Field(..., description="year of the car")
-#     model: str = Field(..., description="model of the car")
-#     year:int=Field(..., description="year of the vehicle")
-#     company_id:int=Field(..., description="id of the company")
-#     location_id:int=Field(..., description="location id of the company")
-#     start_date:str=Field(..., description="date of appointment")
-#     appointment_timezone:str=Field(..., description="time zone")
-#     intent:str=Field(..., description="costumer intent")
-#     summary:str=Field(..., description="one line about summary of appointment,")
-#     description:str=Field(..., description="one line about description about visit,")
-# # Uncomment if you want to use the decorator
-# @tool
-# def store_appointment_data(name: str,phone: str,email: str ,make: str,model: str,year:int,
-#                            company_id:int,location_id:int,start_date:str,appointment_timezone:str,
-#                            intent:str,summary:str,description:str) -> dict:
-# # @tool(args_schema=CustomerDataStore)
-# # def store_appointment_data(data: CustomerDataStore) -> dict:
-#     # ... implementation
 
 
-#     """Store appointment data using an API."""
 
-                               
-#     api_url="https://webapp-api-green.prod.funnelai.com/test/appointment/create"
-
-                               
-
-#     data_dict = {
-#     "company_id": company_id,
-#     "location_id": location_id,
-#     "lead": {
-#         "name": name,
-#         "phone": phone,
-#         "email": email
-#     },
-#     "vehicle": {
-#         "year": year,
-#         "make": make,
-#         "model": model,
-#         "intent": intent
-#     },
-#     "appointment": {
-#         "start_date": start_date,
-#         "description": description,
-#         "summary":summary,
-#         "appointment_timezone": appointment_timezone
-#     }
-# }
-
-#     # Make the request
-#     response = requests.post(api_url, json=data_dict)
-   
-#     # Check the response status code
-#     if response.status_code == 200:
-#         print("Data stored successfully!")
-#     else:
-#         print(f"Failed to store data. Status code: {response.status_code}")
-#         print(response.text)  # Print the response content for debugging
+##########DATE_NOT_KNOWN#####CREATING_APPOINTMENT_LINK######
 import requests
 from pydantic import BaseModel, Field
 from typing import Dict, Any
 
 class appointment_link(BaseModel):
     appointment_url: str
-#     link:str
 class CustomerDataStore(BaseModel):
     name: str = Field(..., description="name of the customer")
     phone: str = Field(..., description="phone number of the customer")
@@ -378,7 +322,7 @@ def create_appointment_link(name: str,phone: str,email: str ,make: str,model: st
     print(response.json)
     print("___text___")
     print(response.text)
-#      response = requests.patch(api_url, json=data_dict)
+#      response = requests.post(api_url, json=data_dict)
    
     # Check the response status code
     if response.status_code == 200:
@@ -390,10 +334,8 @@ def create_appointment_link(name: str,phone: str,email: str ,make: str,model: st
         print(f"Failed to store data. Status code: {response.status_code}")
         print(response.text)  # Print the response content for debugging
 
-import requests
-from pydantic import BaseModel, Field
-from typing import Dict, Any
 
+#####CONFORM APPOINTMENT######
 class CustomerDataStore(BaseModel):
     name: str = Field(..., description="name of the customer")
     phone: str = Field(..., description="phone number of the customer")
