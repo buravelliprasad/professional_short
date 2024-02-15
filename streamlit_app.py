@@ -320,9 +320,9 @@ def create_appointment_link(name: str,phone: str,email: str ,make: str,model: st
     # Check the response status code
     if response.status_code == 200:
         print("Data stored successfully!")
-        appointment_url = response.json().get("appointment_url")
+        result = response.json()
 #       appointment_url = response.get("appointment_url")
-        return appointment_url
+        return result
         
     else:
         print(f"Failed to store data. Status code: {response.status_code}")
