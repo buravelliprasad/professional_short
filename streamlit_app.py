@@ -284,13 +284,6 @@ def create_appointment_link(name: str,phone: str,email: str ,make: str,model: st
                            company_id:int,location_id:int,start_date:str,appointment_timezone:str,
                            intent:str,summary:str,description:str) -> dict:
 
-
-
-    """To create appointment"""
-#     print(data)
-    
-    # Your API endpoint for storing appointment data
-#     api_url = "https://889d-2402-a00-172-22e6-71e5-ba36-c2e7-3c81.ngrok-free.app/test/appointment/create"
     api_url="https://495c-2402-a00-172-22e6-5ea8-c44e-fd0e-e8ed.ngrok-free.app/test/appointment/create"
 
     data_dict = {
@@ -315,7 +308,6 @@ def create_appointment_link(name: str,phone: str,email: str ,make: str,model: st
     }
 }
 
-    # Make the request
     response = requests.post(api_url, json=data_dict)
     print(response.status_code)
     print("___json___")
@@ -328,9 +320,8 @@ def create_appointment_link(name: str,phone: str,email: str ,make: str,model: st
         print("Data stored successfully!")
         # data = json.loads(r.text)
         # appointment_text = response.text
-        appointment_url = json.loads(response.text)
-        
-        return appointment_url
+        result=response.json()
+        return result
         
     else:
         print(f"Failed to store data. Status code: {response.status_code}")
