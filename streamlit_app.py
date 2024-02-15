@@ -284,6 +284,8 @@ def create_appointment_link(name: str,phone: str,email: str ,make: str,model: st
                            company_id:int,location_id:int,start_date:str,appointment_timezone:str,
                            intent:str,summary:str,description:str) -> dict:
 
+     """To create appointment"""                              
+
     api_url="https://495c-2402-a00-172-22e6-5ea8-c44e-fd0e-e8ed.ngrok-free.app/test/appointment/create"
 
     data_dict = {
@@ -317,11 +319,10 @@ def create_appointment_link(name: str,phone: str,email: str ,make: str,model: st
    
     # Check the response status code
     if response.status_code == 200:
-        print("Data stored successfully!")
-        # data = json.loads(r.text)
-        # appointment_text = response.text
-        result=response.json()
-        return result
+    print("Data stored successfully!")
+    appointment_url = response.json().get("appointment_url")
+#         appointment_url = response.get("appointment_url")
+        return appointment_url
         
     else:
         print(f"Failed to store data. Status code: {response.status_code}")
