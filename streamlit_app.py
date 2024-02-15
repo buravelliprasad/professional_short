@@ -322,12 +322,14 @@ def create_appointment_link(name: str,phone: str,email: str ,make: str,model: st
     print(response.json)
     print("___text___")
     print(response.text)
-#      response = requests.post(api_url, json=data_dict)
    
     # Check the response status code
     if response.status_code == 200:
         print("Data stored successfully!")
-        appointment_url = response.json().get("appointment_url")
+        # data = json.loads(r.text)
+        # appointment_text = response.text
+        appointment_url = json.loads(response.text)
+        
         return appointment_url
         
     else:
