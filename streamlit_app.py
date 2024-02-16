@@ -334,6 +334,7 @@ def create_appointment_link(name: str,phone: str,email: str ,make: str,model: st
         try:
             appointment_url=response_json.get("appointment_url")
         except Exception as e:
+            st.error(f"Error: {response.status_code}")
             print("error",e)
             return None
         
