@@ -275,7 +275,7 @@ class CustomerDataStore(BaseModel):
     year:int=Field(..., description="year of the vehicle")
     company_id:int=Field(..., description="id of the company")
     location_id:int=Field(..., description="location id of the company")
-    start_date:str=Field(..., description="is not available")
+    start_date:str=Field(..., description="DATE SHOULD NOT BE EMPTY")
     appointment_timezone:str=Field(..., description="time zone")
     intent:str=Field(..., description="costumer intent")
     summary:str=Field(..., description="one line about summary of appointment,")
@@ -605,7 +605,7 @@ prompt = OpenAIFunctionsAgent.create_prompt(
     system_message=system_message,
     extra_prompt_messages=[MessagesPlaceholder(variable_name=memory_key)]
 )
-tools = [tool1,tool2,tool3,get_appointment_details,confirm_appointment,create_appointment_link]
+tools = [tool1,tool2,get_appointment_details,confirm_appointment,create_appointment_link]
 agent = OpenAIFunctionsAgent(llm=llm, tools=tools, prompt=prompt)
 if 'agent_executor' not in st.session_state:
     agent_executor = AgentExecutor(agent=agent, tools=tools, memory=memory, verbose=True, return_source_documents=True,
