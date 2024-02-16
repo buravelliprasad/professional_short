@@ -290,80 +290,59 @@ def create_appointment_link(name: str,phone: str,email: str ,make: str,model: st
 
     """To create appointment link when costumer is not sure when to book appointment"""
 
-#     api_url = "https://889d-2402-a00-172-22e6-71e5-ba36-c2e7-3c81.ngrok-free.app/test/appointment/create"
+    # api_url = "https://889d-2402-a00-172-22e6-71e5-ba36-c2e7-3c81.ngrok-free.app/test/appointment/create"
     api_url="https://495c-2402-a00-172-22e6-5ea8-c44e-fd0e-e8ed.ngrok-free.app/test/appointment/create"
 
     data_dict = {
-    "company_id": company_id,
-    "location_id": location_id,
-    "lead": {
-        "name": name,
-        "phone": phone,
-        "email": email
-    },
-    "vehicle": {
-        "year": year,
-        "make": make,
-        "model": model,
-        "intent": intent
-    },
-    "appointment": {
-        "start_date": start_date,
-        "description": description,
-        "summary":summary,
-        "appointment_timezone": appointment_timezone
+        "company_id": company_id,
+        "location_id": location_id,
+        "lead": {
+            "name": name,
+            "phone": phone,
+            "email": email
+        },
+        "vehicle": {
+            "year": year,
+            "make": make,
+            "model": model,
+            "intent": intent
+        },
+        "appointment": {
+            "start_date": start_date,
+            "description": description,
+            "summary":summary,
+            "appointment_timezone": appointment_timezone
+        }
     }
-}
 
-#     # Make the request
-#     response = requests.post(api_url, json=data_dict)
-#     print(response.status_code)
-#     print("___json___")
-#     print(response.json)
-#     print("___text___")
-#     print(response.text)
-# #      response = requests.patch(api_url, json=data_dict)
-   
-#     # Check the response status code
-#     if response.status_code == 200:
-#         print("Data stored successfully!")
-#         response_json=response.json()
-#         print(response_json)
-#         print(type(response_json))
-#         # appointment_url = response.json().get("appointment_url")
-#         appointment_url=response_json.get("appointment_url")
-#         try:
-#             appointment_url=response_json.get("appointment_url")
-#         except Exception as e:
-#             st.error(f"Error: {response.status_code}")
-#             print("error",e)
-#             return None
-        
-#         print("-----")
-#         print(appointment_url)
-#         return appointment_url
-    import urllib.request
-    import urllib.parse
-    data_json = json.dumps(data_dict).encode('utf-8')
-    request = urllib.request.Request(api_url, data=data_json, headers={'Content-Type': 'application/json'})
-    with urllib.request.urlopen(request) as response:
-        response_data = response.read()
-        status_code = response.getcode()
-    
-        print(status_code)
+        # Make the request
+        response = requests.post(api_url, json=data_dict)
+        print(response.status_code)
         print("___json___")
-        # Decode the response data
-        response_json = json.loads(response_data.decode('utf-8'))
-        print(response_json)
+        print(response.json)
         print("___text___")
-        print(response_data.decode('utf-8'))
-    
-        if status_code == 200:
+        print(response.text)
+        # response = requests.patch(api_url, json=data_dict)
+       
+        # Check the response status code
+        if response.status_code == 200:
             print("Data stored successfully!")
+            response_json=response.json()
             print(response_json)
             print(type(response_json))
-            appointment_url = response_json.get("appointment_url")
+            # appointment_url = response.json().get("appointment_url")
+            appointment_url=response_json.get("appointment_url")
+            try:
+                appointment_url=response_json.get("appointment_url")
+            except Exception as e:
+                st.error(f"Error: {response.status_code}")
+                print("error",e)
+                return None
+            
+            print("-----")
             print(appointment_url)
+            return appointment_url
+
         else:
             print(f"Failed to store data. Status code: {response.status_code}")
             print(response.text)  # Print the response content for debugging
