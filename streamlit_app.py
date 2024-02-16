@@ -241,6 +241,7 @@ def get_appointment_details(requested_appointment_date: str, company_id: int, lo
     if response.status_code == 200:
         # Parse the JSON response
         result = response.json()
+        print(result)
         
         # Check if the date is present in the response
         if requested_appointment_date in result and result[requested_appointment_date] is not None:
