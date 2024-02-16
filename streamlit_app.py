@@ -316,36 +316,36 @@ def create_appointment_link(name: str,phone: str,email: str ,make: str,model: st
     }
 
         # Make the request
-        response = requests.post(api_url, json=data_dict)
-        print(response.status_code)
-        print("___json___")
-        print(response.json)
-        print("___text___")
-        print(response.text)
-        # response = requests.patch(api_url, json=data_dict)
-       
-        # Check the response status code
-        if response.status_code == 200:
-            print("Data stored successfully!")
-            response_json=response.json()
-            print(response_json)
-            print(type(response_json))
-            # appointment_url = response.json().get("appointment_url")
+    response = requests.post(api_url, json=data_dict)
+    print(response.status_code)
+    print("___json___")
+    print(response.json)
+    print("___text___")
+    print(response.text)
+    # response = requests.patch(api_url, json=data_dict)
+   
+    # Check the response status code
+    if response.status_code == 200:
+        print("Data stored successfully!")
+        response_json=response.json()
+        print(response_json)
+        print(type(response_json))
+        # appointment_url = response.json().get("appointment_url")
+        appointment_url=response_json.get("appointment_url")
+        try:
             appointment_url=response_json.get("appointment_url")
-            try:
-                appointment_url=response_json.get("appointment_url")
-            except Exception as e:
-                st.error(f"Error: {response.status_code}")
-                print("error",e)
-                return None
-            
-            print("-----")
-            print(appointment_url)
-            return appointment_url
+        except Exception as e:
+            st.error(f"Error: {response.status_code}")
+            print("error",e)
+            return None
+        
+        print("-----")
+        print(appointment_url)
+        return appointment_url
 
-        else:
-            print(f"Failed to store data. Status code: {response.status_code}")
-            print(response.text)  # Print the response content for debugging
+    else:
+        print(f"Failed to store data. Status code: {response.status_code}")
+        print(response.text)  # Print the response content for debugging
 
 
 
