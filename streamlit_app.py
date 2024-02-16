@@ -264,6 +264,7 @@ from typing import Dict, Any
 
 class appointment_link(BaseModel):
     appointment_url: str
+#     link:str
 class CustomerDataStore(BaseModel):
     name: str = Field(..., description="name of the customer")
     phone: str = Field(..., description="phone number of the customer")
@@ -279,13 +280,16 @@ class CustomerDataStore(BaseModel):
     summary:str=Field(..., description="one line about summary of appointment,")
     description:str=Field(..., description="one line about description about visit,")
 
-@tool
+@tool(args_schema=CustomerDataStore)
 def create_appointment_link(name: str,phone: str,email: str ,make: str,model: str,year:int,
                            company_id:int,location_id:int,start_date:str,appointment_timezone:str,
                            intent:str,summary:str,description:str) -> dict:
 
-    """To create appointment link"""                              
 
+
+    """To create appointment"""
+
+#     api_url = "https://889d-2402-a00-172-22e6-71e5-ba36-c2e7-3c81.ngrok-free.app/test/appointment/create"
     api_url="https://495c-2402-a00-172-22e6-5ea8-c44e-fd0e-e8ed.ngrok-free.app/test/appointment/create"
 
     data_dict = {
@@ -310,25 +314,26 @@ def create_appointment_link(name: str,phone: str,email: str ,make: str,model: st
     }
 }
 
+    # Make the request
     response = requests.post(api_url, json=data_dict)
     print(response.status_code)
     print("___json___")
     print(response.json)
     print("___text___")
     print(response.text)
+#      response = requests.patch(api_url, json=data_dict)
    
     # Check the response status code
     if response.status_code == 200:
-        result=response.text
-        appointment_url = json.loads(result)
-        print(appointment_url)
-#       appointment_url_1 = result[]
-        
+        print("Data stored successfully!")
+        appointment_url = response.json().get("appointment_url")
+#         appointment_url = response.get("appointment_url")
         return appointment_url
         
     else:
         print(f"Failed to store data. Status code: {response.status_code}")
         print(response.text)  # Print the response content for debugging
+
 
 
 #####CONFORM APPOINTMENT######
