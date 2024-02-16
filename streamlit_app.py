@@ -344,7 +344,7 @@ def create_appointment_link(name: str,phone: str,email: str ,make: str,model: st
     import urllib.request
     import urllib.parse
     data_json = json.dumps(data_dict).encode('utf-8')
-    request = urllib.request.Request(api_url, data=data_json, headers={'Content-Type': 'application/json'}, method='PATCH')
+    request = urllib.request.Request(api_url, data=data_json, headers={'Content-Type': 'application/json'})
     with urllib.request.urlopen(request) as response:
         response_data = response.read()
         status_code = response.getcode()
